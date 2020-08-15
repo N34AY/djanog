@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Stats</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+      <h5 class="my-0 mr-md-auto font-weight-normal">Stats for Bridge</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="{% url 'home' %}">Home</a>
+        <a class="p-2 text-dark" href="{% url 'stats' %}">Stats</a>
+        <a class="p-2 text-dark" href="{% url 'users' %}">Users</a>
+      </nav>
+      <a class="btn btn-outline-primary" href="#">Logout</a>
+    </div>
+    <div class="container">
+        <h1>Глобальная статистика</h1>
+    </div>
+    <div class="container">
+        <form>
+            <div class="form-row">
+                <div class="col">
+                    <label for="date_filter">Дата</label>
+                    <input type="date" class="form-control" id="date_filter" placeholder="Введите дату">
+                </div>
+                <div class="col">
+                    <label for="man_filter">Мужик</label>
+                    <input type="number" class="form-control" id="man_filter" placeholder="Введите ID">
+                </div>
+                <div class="col">
+                    <label for="girl_filter">Анкета</label>
+                    <select class="browser-default custom-select" id="girl_filter">
+                        {% for partner in stats_list %}
+                        <option value="{{ partner.girl }}">{{ partner.girl }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="translator_filter">Переводчик</label>
+                    <select class="browser-default custom-select" id="translator_filter">
+                        {% for user in users %}
+                        <option value="{{ user.site_id }}">{{ user.name }} {{ user.sur_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="translator_filter">Тип</label>
+                    <input type="text" class="form-control" id="type_filter" placeholder="Выберите тип">
+                </div>
+                <div class="col">
+                    <label for="search_btn">Фильтрация</label>
+                    <a class="btn btn-primary" href="" id="search_btn">Отфильтровать</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container">
+        <div class="pagination" style="margin-bottom: 20px; margin-top: 20px;">
+            <span class="step-links">
+                {% if stats_list.has_previous %}
+                    <a class="btn btn-warning" href="?page={{ stats_list.previous_page_number }}">Предыдущая</a>
+                {% endif %}
+                <span class="current">
+                    Страница {{ stats_list.number }} из {{ stats_list.paginator.num_pages }}.
+                </span>
+                {% if stats_list.has_next %}
+                    <a class="btn btn-success" href="?page={{ stats_list.next_page_number }}">Следующая</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    <div class="container">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Мужик</th>
+                    <th scope="col">Анкета</th>
+                    <th scope="col">Переводчик</th>
+                    <th scope="col">Начисление</th>
+                    <th scope="col">Тип</th>
+                    <th scope="col">Тип</th>
+                </tr>
+            </thead>
+            {% for stat in stats_list %}
+                <tr>
+                    <td>{{ stat.date }}</td>
+                    <td>{{ stat.man }}</td>
+                    <td>{{ stat.girl }}</td>
+                    <td>{{ stat.partner }}</td>
+                    <td>{{ stat.partner_get }}</td>
+                    <td>{{ stat.name }}</td>
+                    <td>{{ stat.comment }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

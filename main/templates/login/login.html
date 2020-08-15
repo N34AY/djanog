@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Авторизация{% endblock %}
+{% block content %}
+    <div class="container text-center" style="max-width: 350px; margin-bottom: 25px">
+        <p style="color: red">{{ message }}</p>
+        <h1 class="h3 mb-3 font-weight-normal">Пожалуйста войдите</h1>
+        <form method="post" class="text-left">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="login">Ваш логин</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="password">Ваш пароль</label>
+                {{ form.password }}
+            </div>
+            <button class="btn btn-primary" type="submit">Войти</button>
+        </form>
+    </div>
+{% endblock %}
+
+
